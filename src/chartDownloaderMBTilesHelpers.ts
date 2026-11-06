@@ -52,7 +52,7 @@ export async function openOrCreateMbtiles(
 
   return new Promise((resolve, reject) => {
     new MBTilesCtor(
-      `${mbtilesPath}?mode=rwc`,
+      `${mbtilesPath}?mode=rwc&batch=2`,
       (err: Error | null, mbtiles: MBTilesHandle) => {
         if (err) {
           return reject(err)
@@ -102,6 +102,39 @@ export async function openOrCreateMbtiles(
           mbtiles.putInfo(metadata, (err: Error | null) => {
             if (err) {
               return reject(err)
+            }
+            // One tile is two rows (image + coordinate). Serialise calls:
+            // mbtiles' concurrent batch callbacks can otherwise acknowledge
+            // rows while a previous transaction is still committing.
+            const putTile = mbtiles.putTile.bind(mbtiles)
+            const close = mbtiles.close.bind(mbtiles)
+            let writes = Promise.resolve()
+            let closing = false
+            mbtiles.putTile = (z, x, y, data, callback) => {
+              if (closing) return callback(new Error('Cache is closing'))
+              const written = writes.then(
+                () =>
+                  new Promise<void>((resolve, reject) => {
+                    putTile(z, x, y, data, (error) =>
+                      error ? reject(error) : resolve()
+                    )
+                  })
+              )
+              writes = written.catch(() => undefined)
+              written.then(
+                () => callback(null),
+                (error) => callback(error)
+              )
+            }
+            mbtiles.close = (callback) => {
+              closing = true
+              void writes.then(() => {
+                try {
+                  close(callback)
+                } catch (error) {
+                  callback(error as Error)
+                }
+              })
             }
             resolve(mbtiles)
           })

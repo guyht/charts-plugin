@@ -15,12 +15,17 @@
 
 import { expect } from 'chai'
 import { DatabaseSync } from 'node:sqlite'
+import fs from 'fs'
+import os from 'os'
+import path from 'path'
 import {
   deleteTilesInChunks,
+  openOrCreateMbtiles,
   getMBTilesForPolygon,
   purgeAllOrphanImages,
   vacuumMbtiles
 } from '../src/chartDownloaderMBTilesHelpers'
+import type { ChartProvider, MBTilesHandle } from '../src/types'
 import { convertBboxToGeoJSON } from '../src/chartDownloaderTileHelpers'
 
 // Build an in-memory SQLite db with the mbtiles tables the helpers touch.
@@ -70,6 +75,73 @@ const countMap = (db: DatabaseSync): number =>
 
 const countImages = (db: DatabaseSync): number =>
   (db.prepare('SELECT COUNT(*) AS c FROM images').get() as { c: number }).c
+
+describe('working cache durability', () => {
+  let directory: string
+  let handle: MBTilesHandle
+  let reader: DatabaseSync
+  let closed: boolean
+  beforeEach(async () => {
+    directory = fs.mkdtempSync(path.join(os.tmpdir(), 'durable-chart-cache-'))
+    const file = path.join(directory, 'cache.mbtiles')
+    handle = await openOrCreateMbtiles(file, {
+      identifier: 'durable',
+      name: 'Durable',
+      type: 'tilelayer',
+      format: 'png',
+      minzoom: 0,
+      maxzoom: 6,
+      scale: 250000,
+      _filePath: ''
+    } as ChartProvider)
+    reader = new DatabaseSync(file, { readOnly: true })
+    closed = false
+  })
+  afterEach(async () => {
+    reader.close()
+    if (!closed)
+      await new Promise<void>((resolve) => handle.close(() => resolve()))
+    fs.rmSync(directory, { recursive: true, force: true })
+  })
+  const write = (handle: MBTilesHandle, x: number) =>
+    new Promise<void>((resolve, reject) => {
+      handle.putTile(6, x, 1, Buffer.from('tile-' + x), (error) =>
+        error ? reject(error) : resolve()
+      )
+    })
+  it('commits the first tile before acknowledging it, visible to another connection', async () => {
+    await write(handle, 1)
+    expect(countMap(reader)).to.equal(1)
+    const tile = await new Promise<Buffer>((resolve, reject) =>
+      handle.getTile(6, 1, 1, (error, bytes) =>
+        error ? reject(error) : resolve(bytes)
+      )
+    )
+    expect(tile.toString()).to.equal('tile-1')
+  })
+  it('commits each concurrent request before its own callback', async () => {
+    const missing: number[] = []
+    await Promise.all(
+      Array.from({ length: 40 }, (_, x) =>
+        write(handle, x).then(() => {
+          if (!reader.prepare('SELECT 1 FROM map WHERE tile_column = ?').get(x))
+            missing.push(x)
+        })
+      )
+    )
+    expect(missing).to.deep.equal([])
+    expect(countMap(reader)).to.equal(40)
+  })
+  it('drains accepted writes before closing the working cache', async () => {
+    const requests = Array.from({ length: 20 }, (_, x) => write(handle, x))
+    await new Promise<void>((resolve, reject) =>
+      handle.close((error) => (error ? reject(error) : resolve()))
+    )
+    closed = true
+    await Promise.all(requests)
+    expect(countMap(reader)).to.equal(20)
+  })
+})
 
 describe('chartDownloaderMBTilesHelpers: getMBTilesForPolygon', () => {
   it('yields tiles whose XYZ coords fall inside the polygon', () => {

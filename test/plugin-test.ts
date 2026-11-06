@@ -416,11 +416,13 @@ describe('chart folder watcher', function () {
   let plugin: PluginInstance
   let testServer: http.Server
   let tmpDir: string
+  let watcherApp: TestApp
   const fixtureMbtiles = path.resolve(__dirname, 'charts/test.mbtiles')
 
   beforeEach(() => {
     fs.mkdirSync(TMP_BASE, { recursive: true })
     return createDefaultApp().then(({ app, server }) => {
+      watcherApp = app
       plugin = asPluginApp(app)
       testServer = server
       tmpDir = fs.mkdtempSync(path.join(TMP_BASE, 'watch-'))
@@ -456,6 +458,106 @@ describe('chart folder watcher', function () {
 
     response = await get(testServer, '/signalk/v1/api/resources/charts')
     expect(Object.keys(response.body)).to.include('added')
+  })
+
+  it('does not rescan for working cache or export writes', async () => {
+    let reloads = 0
+    watcherApp.debug = (message: unknown) => {
+      if (message === 'Reloading charts after filesystem change') reloads++
+    }
+    await plugin.start({ chartPaths: [tmpDir] })
+    // macOS may deliver the watched directory's own creation event on attach.
+    await wait(RELOAD_WAIT_MS)
+    reloads = 0
+    for (const name of ['.working/test', 'exports']) {
+      fs.mkdirSync(path.join(tmpDir, name), { recursive: true })
+      fs.writeFileSync(
+        path.join(tmpDir, name, 'cache.mbtiles-wal'),
+        'cache activity'
+      )
+    }
+    await wait(RELOAD_WAIT_MS)
+    expect(reloads).to.equal(0)
+    fs.copyFileSync(fixtureMbtiles, path.join(tmpDir, 'real-chart.mbtiles'))
+    await wait(RELOAD_WAIT_MS)
+    expect(reloads).to.equal(1)
+  })
+
+  it('reuses the working proxy handle when an installed chart is added', async () => {
+    await plugin.start({
+      chartPaths: [tmpDir],
+      cachePath: tmpDir,
+      onlineChartProviders: [
+        {
+          name: 'Watcher Proxy',
+          proxy: true,
+          minzoom: 0,
+          maxzoom: 6,
+          format: 'png',
+          url: 'http://127.0.0.1:9/{z}/{x}/{y}.png'
+        }
+      ]
+    })
+    const file = path.join(tmpDir, '.working/watcher-proxy/cache.mbtiles')
+    const before = fs.statSync(file + '-wal').mtimeMs
+    fs.copyFileSync(fixtureMbtiles, path.join(tmpDir, 'installed.mbtiles'))
+    await wait(RELOAD_WAIT_MS)
+    const charts = await get(testServer, '/signalk/v1/api/resources/charts')
+    expect(charts.body).to.have.property('installed')
+    expect(fs.statSync(file + '-wal').mtimeMs).to.equal(before)
+  })
+
+  it('still discovers charts under a nested installed folder named exports', async () => {
+    const nested = path.join(tmpDir, 'region', 'exports')
+    fs.mkdirSync(nested, { recursive: true })
+    await plugin.start({ chartPaths: [tmpDir] })
+    await wait(RELOAD_WAIT_MS)
+    fs.copyFileSync(fixtureMbtiles, path.join(nested, 'nested-export.mbtiles'))
+    await wait(RELOAD_WAIT_MS)
+    const charts = await get(testServer, '/signalk/v1/api/resources/charts')
+    expect(charts.body).to.have.property('nested-export')
+  })
+
+  it('serves a downloaded tile offline after a local chart rescan and restart', async () => {
+    let requests = 0
+    const origin = http.createServer((_req, res) => {
+      requests++
+      res.setHeader('Content-Type', 'image/png')
+      res.end(Buffer.from('durable-origin-tile'))
+    })
+    await new Promise<void>((resolve) => origin.listen(0, '127.0.0.1', resolve))
+    const config = {
+      chartPaths: [tmpDir],
+      cachePath: tmpDir,
+      onlineChartProviders: [
+        {
+          name: 'Offline Proxy',
+          proxy: true,
+          minzoom: 0,
+          maxzoom: 6,
+          format: 'png',
+          url: `http://127.0.0.1:${serverPort(origin)}/{z}/{x}/{y}.png`
+        }
+      ]
+    }
+    try {
+      await plugin.start(config)
+      const url = '/signalk/chart-tiles/offline-proxy/6/1/1'
+      expect((await get(testServer, url)).status).to.equal(200)
+      await new Promise<void>((resolve) => origin.close(() => resolve()))
+      await wait(RELOAD_WAIT_MS)
+      expect((await get(testServer, url)).status).to.equal(200)
+      fs.copyFileSync(fixtureMbtiles, path.join(tmpDir, 'added.mbtiles'))
+      await wait(RELOAD_WAIT_MS)
+      expect((await get(testServer, url)).status).to.equal(200)
+      plugin.stop()
+      await plugin.start(config)
+      expect((await get(testServer, url)).status).to.equal(200)
+      expect(requests).to.equal(1)
+    } finally {
+      if (origin.listening)
+        await new Promise<void>((resolve) => origin.close(() => resolve()))
+    }
   })
 
   it('drops a chart that has been deleted', async () => {

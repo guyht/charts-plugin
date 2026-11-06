@@ -671,6 +671,9 @@ const createPlugin = (app: ChartProviderApp): Plugin => {
     // just always go remote.
     for (const provider of Object.values(nextChartProviders)) {
       if (provider.proxy === true) {
+        // Online/token provider objects survive filesystem rescans. Reuse their
+        // working handle rather than replacing it and abandoning queued writes.
+        if (provider._mbtilesHandle) continue
         try {
           provider._mbtilesHandle = await openOrCreateMbtiles(
             workingMbtilesPath(cachePath, provider.identifier),
@@ -796,9 +799,20 @@ const createPlugin = (app: ChartProviderApp): Plugin => {
   // changes are picked up.
   const createWatchers = (p: string): FSWatcher[] => {
     const handlers: FSWatcher[] = []
+    const onChange = (_event: string, filename: string | Buffer | null) => {
+      if (filename) {
+        const entry = filename.toString().split(/[\\/]/)[0] ?? ''
+        // Mirror scanner exclusions: cache/WAL and export writes are not
+        // installed-chart changes and must never trigger another cache open.
+        if (entry.startsWith('.') || entry === 'exports') return
+      }
+      scheduleReload()
+    }
     try {
-      const watcher = fs.watch(p, { encoding: 'utf8', recursive: true }, () =>
-        scheduleReload()
+      const watcher = fs.watch(
+        p,
+        { encoding: 'utf8', recursive: true },
+        onChange
       )
       watcher.on('error', (err) =>
         app.debug(`Watcher error on ${p}: ${err.message}`)
@@ -812,9 +826,7 @@ const createPlugin = (app: ChartProviderApp): Plugin => {
         }); falling back to top-level watch`
       )
       try {
-        const watcher = fs.watch(p, { encoding: 'utf8' }, () =>
-          scheduleReload()
-        )
+        const watcher = fs.watch(p, { encoding: 'utf8' }, onChange)
         watcher.on('error', (e) =>
           app.debug(`Watcher error on ${p}: ${e.message}`)
         )
