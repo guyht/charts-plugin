@@ -1,0 +1,902 @@
+diff --git a/package-lock.json b/package-lock.json
+index 280660d..228ce0d 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -17,8 +17,10 @@
+         "check-disk-space": "^4.0.0",
+         "fast-xml-parser": "^5.7.1",
+         "geojson-antimeridian-cut": "^0.1.0",
++        "impit": "0.14.8",
+         "lodash": "^4.17.11",
+-        "p-limit": "^7"
++        "p-limit": "^7",
++        "tough-cookie": "6.0.2"
+       },
+       "devDependencies": {
+         "@stryker-mutator/core": "^10.0.0",
+@@ -3958,6 +3960,165 @@
+         "url": "https://opencollective.com/express"
+       }
+     },
++    "node_modules/impit": {
++      "version": "0.14.8",
++      "resolved": "https://registry.npmjs.org/impit/-/impit-0.14.8.tgz",
++      "integrity": "sha512-1lPwtKsMWVbsIRUXxnqX2zTTzEE5eon0UJJQKPQubnUJM5V6g+Flzdj9GwCi6HAqCKFrHBCFTteJtl6eMFL9HQ==",
++      "license": "Apache-2.0",
++      "engines": {
++        "node": ">= 20"
++      },
++      "optionalDependencies": {
++        "impit-darwin-arm64": "0.14.8",
++        "impit-darwin-x64": "0.14.8",
++        "impit-linux-arm64-gnu": "0.14.8",
++        "impit-linux-arm64-musl": "0.14.8",
++        "impit-linux-x64-gnu": "0.14.8",
++        "impit-linux-x64-musl": "0.14.8",
++        "impit-win32-arm64-msvc": "0.14.8",
++        "impit-win32-x64-msvc": "0.14.8"
++      }
++    },
++    "node_modules/impit-darwin-arm64": {
++      "version": "0.14.8",
++      "resolved": "https://registry.npmjs.org/impit-darwin-arm64/-/impit-darwin-arm64-0.14.8.tgz",
++      "integrity": "sha512-Km2e4ucyKOMHG4H7z289d8NzR+IRoWIUqdnFtQzsH2x3E5ee66kLaBc7FcMVKhCRPl8cj86Ft1V4Mt9RXBOAcQ==",
++      "cpu": [
++        "arm64"
++      ],
++      "license": "Apache-2.0",
++      "optional": true,
++      "os": [
++        "darwin"
++      ],
++      "engines": {
++        "node": ">= 10"
++      }
++    },
++    "node_modules/impit-darwin-x64": {
++      "version": "0.14.8",
++      "resolved": "https://registry.npmjs.org/impit-darwin-x64/-/impit-darwin-x64-0.14.8.tgz",
++      "integrity": "sha512-sXpebv16khhwcEsOVCsYhktxQpmuob6WiF9LMhsxPirFEhAu4uxcgpykiXLTMCwNlWwswxWmlJMgBbsoLPEAkA==",
++      "cpu": [
++        "x64"
++      ],
++      "license": "Apache-2.0",
++      "optional": true,
++      "os": [
++        "darwin"
++      ],
++      "engines": {
++        "node": ">= 10"
++      }
++    },
++    "node_modules/impit-linux-arm64-gnu": {
++      "version": "0.14.8",
++      "resolved": "https://registry.npmjs.org/impit-linux-arm64-gnu/-/impit-linux-arm64-gnu-0.14.8.tgz",
++      "integrity": "sha512-MeXu/hRQkhG+Y9ZN8c7gX4a3H/wG8mmyX78ubDx+8xUQkTZucAbUg7XGIs1WtbSAFMiuOSw7+u7yIACiWbvHXA==",
++      "cpu": [
++        "arm64"
++      ],
++      "libc": [
++        "glibc"
++      ],
++      "license": "Apache-2.0",
++      "optional": true,
++      "os": [
++        "linux"
++      ],
++      "engines": {
++        "node": ">= 10"
++      }
++    },
++    "node_modules/impit-linux-arm64-musl": {
++      "version": "0.14.8",
++      "resolved": "https://registry.npmjs.org/impit-linux-arm64-musl/-/impit-linux-arm64-musl-0.14.8.tgz",
++      "integrity": "sha512-ySyLAX9CL9sAy/bigiWLeZb+YiIAe3PBohvUXLy17FiK1UUaWT3SjQSuIc+Qh8B/qOzcKzxHZsY7D3llKT7D8w==",
++      "cpu": [
++        "arm64"
++      ],
++      "libc": [
++        "musl"
++      ],
++      "license": "Apache-2.0",
++      "optional": true,
++      "os": [
++        "linux"
++      ],
++      "engines": {
++        "node": ">= 10"
++      }
++    },
++    "node_modules/impit-linux-x64-gnu": {
++      "version": "0.14.8",
++      "resolved": "https://registry.npmjs.org/impit-linux-x64-gnu/-/impit-linux-x64-gnu-0.14.8.tgz",
++      "integrity": "sha512-h1Rti8XwivsHRIsdd2vHTjiEJ1w46aYQhUQzInd4Ps/7c6XoTvGhoi/8W3ltD90q87zmtueQS7+TUCnQnb1O8A==",
++      "cpu": [
++        "x64"
++      ],
++      "libc": [
++        "glibc"
++      ],
++      "license": "Apache-2.0",
++      "optional": true,
++      "os": [
++        "linux"
++      ],
++      "engines": {
++        "node": ">= 10"
++      }
++    },
++    "node_modules/impit-linux-x64-musl": {
++      "version": "0.14.8",
++      "resolved": "https://registry.npmjs.org/impit-linux-x64-musl/-/impit-linux-x64-musl-0.14.8.tgz",
++      "integrity": "sha512-Ckku1TBssmvSOQeYilNewqz3ihWqESc/i8nnt1hMySUanJVXK3aKBd82XKi+Rh488Ob8NStx2ntsxn3ASmmlTw==",
++      "cpu": [
++        "x64"
++      ],
++      "libc": [
++        "musl"
++      ],
++      "license": "Apache-2.0",
++      "optional": true,
++      "os": [
++        "linux"
++      ],
++      "engines": {
++        "node": ">= 10"
++      }
++    },
++    "node_modules/impit-win32-arm64-msvc": {
++      "version": "0.14.8",
++      "resolved": "https://registry.npmjs.org/impit-win32-arm64-msvc/-/impit-win32-arm64-msvc-0.14.8.tgz",
++      "integrity": "sha512-C0+uSAs1g2bpLyWXx17aZiaNxV0zFDlXqvtGHATs+vrGlohDcMd/Dn+sCCoZ+whkmk1qOSM4vWHItAqSpuOFVQ==",
++      "cpu": [
++        "arm64"
++      ],
++      "license": "Apache-2.0",
++      "optional": true,
++      "os": [
++        "win32"
++      ],
++      "engines": {
++        "node": ">= 10"
++      }
++    },
++    "node_modules/impit-win32-x64-msvc": {
++      "version": "0.14.8",
++      "resolved": "https://registry.npmjs.org/impit-win32-x64-msvc/-/impit-win32-x64-msvc-0.14.8.tgz",
++      "integrity": "sha512-fkfx6jghOVToPr6YBsTRg5galS7BexRQWW9iTlq+bYG1qFJ1bn+xQdTV4pg0kOAXDpQOLdxsRvw2d8jU2miRDg==",
++      "cpu": [
++        "x64"
++      ],
++      "license": "Apache-2.0",
++      "optional": true,
++      "os": [
++        "win32"
++      ],
++      "engines": {
++        "node": ">= 10"
++      }
++    },
+     "node_modules/import-meta-resolve": {
+       "version": "4.2.0",
+       "resolved": "https://registry.npmjs.org/import-meta-resolve/-/import-meta-resolve-4.2.0.tgz",
+@@ -5358,6 +5519,24 @@
+       "integrity": "sha512-ppJZNDuKGgxzkHihX8v9v9G5f+18gzaTfrukGrq6ueg0lmH4nqVnA2IPG0AEH3jKEk2GRJCUhDoqpoiw3PHLBA==",
+       "license": "ISC"
+     },
++    "node_modules/tldts": {
++      "version": "7.4.19",
++      "resolved": "https://registry.npmjs.org/tldts/-/tldts-7.4.19.tgz",
++      "integrity": "sha512-48dH6aSpQnpbzDUc4vIQZ1VjB8tkK+e8c1yx05/SZK+rkssgjEOlxDd/yU8/a4vGYQ9vRgJr9dwMq9TJ0b3X2Q==",
++      "license": "MIT",
++      "dependencies": {
++        "tldts-core": "^7.4.19"
++      },
++      "bin": {
++        "tldts": "bin/cli.js"
++      }
++    },
++    "node_modules/tldts-core": {
++      "version": "7.4.20",
++      "resolved": "https://registry.npmjs.org/tldts-core/-/tldts-core-7.4.20.tgz",
++      "integrity": "sha512-C630TWXZCZmLq0F2bW4QqwnaaxCQ/svpAqvJwnC4JvgEM5ohhBnGsEzTLSOXcN+xjz+kEaHS5uoWIw2klnqd0A==",
++      "license": "MIT"
++    },
+     "node_modules/toidentifier": {
+       "version": "1.0.1",
+       "resolved": "https://registry.npmjs.org/toidentifier/-/toidentifier-1.0.1.tgz",
+@@ -5368,6 +5547,18 @@
+         "node": ">=0.6"
+       }
+     },
++    "node_modules/tough-cookie": {
++      "version": "6.0.2",
++      "resolved": "https://registry.npmjs.org/tough-cookie/-/tough-cookie-6.0.2.tgz",
++      "integrity": "sha512-exgYmnmL/sJpR3upZfXG5PoatXQii55xAiXGXzY+sROLZ/Y+SLcp9PgJNI9Vz37HpQ74WvDcLT8eqm+kV3FzrA==",
++      "license": "BSD-3-Clause",
++      "dependencies": {
++        "tldts": "^7.0.5"
++      },
++      "engines": {
++        "node": ">=16"
++      }
++    },
+     "node_modules/tree-kill": {
+       "version": "1.2.2",
+       "resolved": "https://registry.npmjs.org/tree-kill/-/tree-kill-1.2.2.tgz",
+diff --git a/package.json b/package.json
+index e0032ca..3acaa06 100644
+--- a/package.json
++++ b/package.json
+@@ -53,8 +53,10 @@
+     "check-disk-space": "^4.0.0",
+     "fast-xml-parser": "^5.7.1",
+     "geojson-antimeridian-cut": "^0.1.0",
++    "impit": "0.14.8",
+     "lodash": "^4.17.11",
+-    "p-limit": "^7"
++    "p-limit": "^7",
++    "tough-cookie": "6.0.2"
+   },
+   "repository": {
+     "type": "git",
+diff --git a/src/chartDownloader.ts b/src/chartDownloader.ts
+index d9da3b7..b38df01 100644
+--- a/src/chartDownloader.ts
++++ b/src/chartDownloader.ts
+@@ -1,4 +1,5 @@
+ import path from 'path'
++import { chartHttp, isChartTimeout } from './chartHttp'
+ import type { DatabaseSync } from 'node:sqlite'
+ import type { BBox } from 'geojson'
+ import { ChartProvider, MBTilesHandle } from './types'
+@@ -703,13 +704,14 @@ export class ChartDownloader {
+       const controller = new AbortController()
+       const timeoutId = setTimeout(() => controller.abort(), timeoutMs)
+       try {
+-        const response = await fetch(url, {
++        const response = await chartHttp.fetch(url, {
++          timeout: timeoutMs,
+           headers: provider.headers,
+           signal: controller.signal
+         })
+-        // Clear the abort timer as soon as the response head is in. A long
+-        // body read was otherwise racing the timeout and could be aborted
+-        // mid-stream while the caller waited on arrayBuffer().
++        // The JS abort timer only covers response headers. The native impit
++        // deadline also bounds the body, so a stalled stream cannot hold a
++        // seeding worker or connection open indefinitely.
+         clearTimeout(timeoutId)
+         if (response.ok) {
+           const arrayBuffer = await response.arrayBuffer()
+@@ -741,9 +743,10 @@ export class ChartDownloader {
+       } catch (err) {
+         clearTimeout(timeoutId)
+         // AbortError vs other network errors: the timeout's controller.abort
+-        // throws an AbortError. Treat any other thrown error as Network.
++        // throws an AbortError; impit native deadlines throw TimeoutError.
+         const isAbort =
+           (err as { name?: string }).name === 'AbortError' ||
++          isChartTimeout(err) ||
+           controller.signal.aborted
+         lastFailure = {
+           kind: isAbort ? FailureKind.Timeout : FailureKind.Network
+diff --git a/src/chartHttp.ts b/src/chartHttp.ts
+new file mode 100644
+index 0000000..a6f79fc
+--- /dev/null
++++ b/src/chartHttp.ts
+@@ -0,0 +1,112 @@
++/** Browser-profiled HTTP transport shared by tile and token requests. */
++import {
++  Impit,
++  TimeoutError,
++  type ImpitResponse,
++  type RequestInit
++} from 'impit'
++import { CookieJar } from 'tough-cookie'
++
++// One browser session: share cookies and keep-alive connections, including
++// between token acquisition and tiles. Cookies stay in memory, scoped by the
++// jar's domain/path/secure rules; they are never written to configuration.
++const browser = new Impit({
++  browser: 'chrome',
++  cookieJar: new CookieJar(),
++  ignoreTlsErrors: false,
++  vanillaFallback: false,
++  followRedirects: false,
++  maxRedirects: 10,
++  timeout: 30000,
++  headers: { 'Accept-Language': 'en-US,en;q=0.9' }
++})
++
++// Narrow response contract also permits Web Response test doubles without
++// pretending impit's native response implements every Web Response property.
++export type ChartResponse = Pick<
++  ImpitResponse,
++  'ok' | 'status' | 'headers' | 'json' | 'arrayBuffer'
++>
++
++export function isChartTimeout(error: unknown): boolean {
++  return (
++    error instanceof TimeoutError ||
++    (error instanceof Error &&
++      (error.name === 'TimeoutError' ||
++        // impit 0.14.8 wraps a timed-out body stream in a plain Error.
++        /^Error reading response stream:.*\bTimedOut\b/.test(error.message)))
++  )
++}
++
++export const chartHttp = {
++  async fetch(url: string, init: RequestInit = {}): Promise<ChartResponse> {
++    const headers = new Headers(init.headers)
++    // Let impit own the browser identity. Old provider configs often contain
++    // just "Mozilla/5.0" or client hints from a different browser/version.
++    // Preserve provider auth, Origin, Referer, content type and other headers.
++    for (const name of [...headers.keys()]) {
++      if (name === 'user-agent' || name.startsWith('sec-ch-ua'))
++        headers.delete(name)
++    }
++    const mode = init.redirect ?? 'follow'
++    // AbortSignal rejects impit's JS promise but does not stop its native I/O.
++    // Bound that I/O too, using one deadline across all redirect hops.
++    const timeout = init.timeout === undefined ? 30000 : init.timeout
++    const deadline = timeout === null ? undefined : Date.now() + timeout
++    let target = new URL(url)
++    let request = { ...init, headers, redirect: 'manual' as const }
++    for (let redirects = 0; ; redirects++) {
++      const remaining = deadline === undefined ? null : deadline - Date.now()
++      if (remaining !== null && remaining <= 0) {
++        throw new DOMException('Chart request timed out', 'TimeoutError')
++      }
++      const response = await browser.fetch(target.toString(), {
++        ...request,
++        timeout: remaining
++      })
++      const location = response.headers.get('location')
++      if (
++        ![301, 302, 303, 307, 308].includes(response.status) ||
++        !location ||
++        mode === 'manual'
++      ) {
++        return response
++      }
++      // impit forwards custom auth headers across origins when following a
++      // redirect itself. Follow explicitly so a provider token cannot leak.
++      await response.arrayBuffer()
++      if (mode === 'error') throw new TypeError('Chart request redirected')
++      if (redirects >= 10) throw new TypeError('Too many chart redirects')
++      const next = new URL(location, target)
++      if (next.protocol !== 'http:' && next.protocol !== 'https:') {
++        throw new TypeError('Unsupported chart redirect protocol')
++      }
++      if (next.origin !== target.origin) {
++        for (const name of [
++          'authorization',
++          'proxy-authorization',
++          'cookie',
++          'host'
++        ])
++          headers.delete(name)
++      }
++      const method = request.method ?? 'GET'
++      if (
++        (response.status === 303 && method !== 'HEAD') ||
++        ((response.status === 301 || response.status === 302) &&
++          method === 'POST')
++      ) {
++        request = { ...request, method: 'GET', body: undefined }
++        for (const name of [
++          'content-type',
++          'content-length',
++          'content-encoding',
++          'content-language',
++          'content-location'
++        ])
++          headers.delete(name)
++      }
++      target = next
++    }
++  }
++}
+diff --git a/src/tokenProvider.ts b/src/tokenProvider.ts
+index 2bf8ff1..620b93e 100644
+--- a/src/tokenProvider.ts
++++ b/src/tokenProvider.ts
+@@ -14,6 +14,7 @@
+  */
+ 
+ import { ChartProvider, TokenProviderConfig } from './types'
++import { chartHttp, type ChartResponse } from './chartHttp'
+ 
+ // Random-range placeholder used for sharded tile hostnames like
+ // `tile{1-5}.host.com`. Inclusive on both ends.
+@@ -95,14 +96,18 @@ export class TokenProvider {
+     const timeoutMs = ep.timeoutMs ?? 10000
+     const controller = new AbortController()
+     const timer = setTimeout(() => controller.abort(), timeoutMs)
+-    let res: Response
++    let res: ChartResponse
+     try {
+-      res = await fetch(ep.url, {
++      res = await chartHttp.fetch(ep.url, {
++        timeout: timeoutMs,
+         method: ep.method ?? 'GET',
+         headers: ep.headers,
+         body: ep.body,
+         signal: controller.signal
+       })
++    } catch {
++      // Native transport errors may embed the full URL, including query keys.
++      throw new Error(`token endpoint ${redactUrl(ep.url)} request failed`)
+     } finally {
+       clearTimeout(timer)
+     }
+diff --git a/test/chartHttp-test.ts b/test/chartHttp-test.ts
+new file mode 100644
+index 0000000..c944708
+--- /dev/null
++++ b/test/chartHttp-test.ts
+@@ -0,0 +1,385 @@
++import { expect } from 'chai'
++import { chartHttp, isChartTimeout } from '../src/chartHttp'
++import {
++  createServer,
++  type Server,
++  type IncomingMessage,
++  type ServerResponse
++} from 'node:http'
++import { ChartDownloader, FailureKind } from '../src/chartDownloader'
++import { chartProviderFromTokenConfig } from '../src/tokenProvider'
++import type { ChartProvider } from '../src/types'
++
++describe('browser chart transport', function () {
++  this.timeout(5000)
++  let server: Server
++  let origin: string
++  let handle: (req: IncomingMessage, res: ServerResponse) => void
++
++  beforeEach(async () => {
++    ChartDownloader.resetForTests()
++    server = createServer((req, res) => handle(req, res))
++    await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve))
++    const address = server.address()
++    if (!address || typeof address === 'string')
++      throw new Error('No server port')
++    origin = `http://127.0.0.1:${address.port}`
++  })
++
++  afterEach(async () => {
++    server.closeAllConnections()
++    await new Promise<void>((resolve, reject) =>
++      server.close((err) => (err ? reject(err) : resolve()))
++    )
++  })
++
++  const provider = (
++    url: string,
++    headers: Record<string, string> = {}
++  ): ChartProvider => ({
++    identifier: 'browser-test',
++    name: 'Browser test',
++    description: '',
++    type: 'tilelayer',
++    scale: 250000,
++    format: 'png',
++    _filePath: '',
++    remoteUrl: url,
++    headers
++  })
++
++  it('sends a coherent Chrome identity instead of generic provider UA/client hints', async () => {
++    handle = (req, res) => res.end(JSON.stringify(req.headers))
++    const result = await ChartDownloader.fetchTileFromRemoteDetailed(
++      provider(origin, {
++        'uSeR-aGeNt': 'Mozilla/5.0',
++        'sEc-Ch-Ua': 'stale-browser',
++        Authorization: 'Bearer provider-secret',
++        Referer: 'https://charts.example/',
++        Origin: 'https://charts.example'
++      }),
++      { z: 1, x: 0, y: 0 }
++    )
++    const headers = JSON.parse(result.buffer!.toString())
++    expect(headers['user-agent']).to.match(/Mozilla\/5\.0 .*Chrome\/\d+/)
++    expect(headers['sec-ch-ua']).not.to.equal('stale-browser')
++    expect(headers['accept-language']).to.equal('en-US,en;q=0.9')
++    expect(headers.authorization).to.equal('Bearer provider-secret')
++    expect(headers.referer).to.equal('https://charts.example/')
++    expect(headers.origin).to.equal('https://charts.example')
++  })
++
++  it('uses the browser transport for both token POST and tile GET, sharing scoped cookies', async () => {
++    const originalFetch = globalThis.fetch
++    globalThis.fetch = async () => {
++      throw new Error('Unexpected native fetch')
++    }
++    const requests: {
++      path: string
++      method: string
++      body: string
++      cookie?: string
++    }[] = []
++    handle = (req, res) => {
++      let body = ''
++      req.on('data', (chunk) => {
++        body += chunk
++      })
++      req.on('end', () => {
++        requests.push({
++          path: req.url!,
++          method: req.method!,
++          body,
++          cookie: req.headers.cookie
++        })
++        if (req.url === '/session/token') {
++          res.setHeader(
++            'set-cookie',
++            'chart-session=accepted; Path=/session; HttpOnly'
++          )
++          res.setHeader('content-type', 'application/json')
++          res.end(JSON.stringify({ access: 'tile-access' }))
++        } else if (
++          req.headers.authorization === 'Bearer tile-access' &&
++          req.headers.cookie?.includes('chart-session=accepted')
++        ) {
++          res.end('bathymetric-tile')
++        } else {
++          res.statusCode = 401
++          res.end('session missing')
++        }
++      })
++    }
++    try {
++      const p = chartProviderFromTokenConfig({
++        identifier: 'browser-token',
++        name: 'Browser token',
++        tokenEndpoint: {
++          url: origin + '/session/token',
++          method: 'POST',
++          body: '{"scope":"charts"}',
++          headers: { 'Content-Type': 'application/json' },
++          ttlSeconds: 60
++        },
++        tile: {
++          url: origin + '/session/tile/{z}/{x}/{y}',
++          headers: { Authorization: 'Bearer {token.access}' }
++        }
++      })
++      const result = await ChartDownloader.fetchTileFromRemoteDetailed(p, {
++        z: 1,
++        x: 0,
++        y: 0
++      })
++      expect(result.buffer?.toString()).to.equal('bathymetric-tile')
++      expect(
++        requests.map(({ path, method, body }) => ({ path, method, body }))
++      ).to.deep.equal([
++        { path: '/session/token', method: 'POST', body: '{"scope":"charts"}' },
++        { path: '/session/tile/1/0/0', method: 'GET', body: '' }
++      ])
++      const outside = await ChartDownloader.fetchTileFromRemoteDetailed(
++        provider(origin + '/outside'),
++        { z: 1, x: 0, y: 0 }
++      )
++      expect(outside.failure.status).to.equal(401)
++      expect(requests[2]!.cookie ?? '').not.to.include('chart-session')
++    } finally {
++      globalThis.fetch = originalFetch
++    }
++  })
++
++  it('follows redirects and retains the response cookie for the redirected request', async () => {
++    handle = (req, res) => {
++      if (req.url === '/redirect/start') {
++        res.writeHead(302, {
++          location: '/redirect/tile',
++          'set-cookie': 'redirect-session=yes; Path=/redirect; HttpOnly'
++        })
++        res.end()
++      } else if (req.headers.cookie?.includes('redirect-session=yes'))
++        res.end('redirected-tile')
++      else {
++        res.statusCode = 401
++        res.end()
++      }
++    }
++    const result = await ChartDownloader.fetchTileFromRemoteDetailed(
++      provider(origin + '/redirect/start'),
++      { z: 1, x: 0, y: 0 }
++    )
++    expect(result.buffer?.toString()).to.equal('redirected-tile')
++  })
++
++  for (const [status, expectedMethod, expectedBody] of [
++    [302, 'GET', ''],
++    [303, 'GET', ''],
++    [307, 'POST', '{"scope":"charts"}'],
++    [308, 'POST', '{"scope":"charts"}']
++  ] as const) {
++    it(`preserves browser POST redirect semantics for ${status}`, async () => {
++      handle = (req, res) => {
++        if (req.url === '/post-start') {
++          res.writeHead(status, { location: '/post-result' })
++          res.end()
++          return
++        }
++        let body = ''
++        req.on('data', (chunk) => {
++          body += chunk
++        })
++        req.on('end', () =>
++          res.end(
++            JSON.stringify({
++              method: req.method,
++              body,
++              type: req.headers['content-type']
++            })
++          )
++        )
++      }
++      const response = await chartHttp.fetch(origin + '/post-start', {
++        method: 'POST',
++        body: '{"scope":"charts"}',
++        headers: { 'Content-Type': 'application/json' }
++      })
++      const result = (await response.json()) as {
++        method: string
++        body: string
++        type?: string
++      }
++      expect(result.method).to.equal(expectedMethod)
++      expect(result.body).to.equal(expectedBody)
++      expect(result.type).to.equal(
++        expectedMethod === 'GET' ? undefined : 'application/json'
++      )
++    })
++  }
++
++  it('limits redirect loops instead of issuing unlimited provider requests', async () => {
++    let attempts = 0
++    handle = (_req, res) => {
++      attempts++
++      res.writeHead(302, { location: '/loop' })
++      res.end()
++    }
++    const result = await ChartDownloader.fetchTileFromRemoteDetailed(
++      provider(origin + '/loop'),
++      { z: 1, x: 0, y: 0 }
++    )
++    expect(result.buffer).to.equal(null)
++    expect(result.failure.kind).to.equal(FailureKind.Network)
++    expect(attempts).to.equal(11)
++  })
++
++  it('still cancels a tile request that stalls before response headers', async () => {
++    handle = () => {}
++    const result = await ChartDownloader.fetchTileFromRemoteDetailed(
++      provider(origin),
++      { z: 1, x: 0, y: 0 },
++      30
++    )
++    expect(result.buffer).to.equal(null)
++    expect(result.failure.kind).to.equal(FailureKind.Timeout)
++  })
++
++  it('uses one native timeout budget across redirect hops', async () => {
++    let attempts = 0
++    handle = (_req, res) => {
++      attempts++
++      setTimeout(() => {
++        res.writeHead(302, { location: '/timed-loop' })
++        res.end()
++      }, 25)
++    }
++    let failure: unknown
++    try {
++      await chartHttp.fetch(origin + '/timed-loop', { timeout: 90 })
++    } catch (error) {
++      failure = error
++    }
++    expect(isChartTimeout(failure)).to.equal(true)
++    expect(attempts).to.be.at.most(4)
++  })
++
++  it('closes the native connection when the tile timeout expires', async () => {
++    let onClose: () => void
++    const closed = new Promise<boolean>((resolve) => {
++      onClose = () => resolve(true)
++    })
++    handle = (req) => req.once('close', onClose)
++    const result = await ChartDownloader.fetchTileFromRemoteDetailed(
++      provider(origin),
++      { z: 1, x: 0, y: 0 },
++      40
++    )
++    expect(result.failure.kind).to.equal(FailureKind.Timeout)
++    const didClose = await Promise.race([
++      closed,
++      new Promise<boolean>((resolve) => setTimeout(() => resolve(false), 300))
++    ])
++    expect(didClose, 'native request still active after cancellation').to.equal(
++      true
++    )
++  })
++
++  it('bounds a stalled tile body after the response headers have arrived', async () => {
++    handle = (_req, res) => {
++      res.writeHead(200)
++      res.write('partial')
++    }
++    const result = await Promise.race([
++      ChartDownloader.fetchTileFromRemoteDetailed(
++        provider(origin),
++        { z: 1, x: 0, y: 0 },
++        40
++      ),
++      new Promise<'still-reading'>((resolve) =>
++        setTimeout(() => resolve('still-reading'), 300)
++      )
++    ])
++    expect(result).not.to.equal('still-reading')
++    if (result === 'still-reading') return
++    expect(result.buffer).to.equal(null)
++    expect(result.failure.kind).to.equal(FailureKind.Timeout)
++  })
++
++  it('preserves the existing 503 retry and binary response bytes', async () => {
++    let attempts = 0
++    handle = (_req, res) => {
++      if (++attempts === 1) {
++        res.statusCode = 503
++        res.end()
++      } else res.end(Buffer.from([0, 128, 255, 1]))
++    }
++    const result = await ChartDownloader.fetchTileFromRemoteDetailed(
++      provider(origin),
++      { z: 1, x: 0, y: 0 }
++    )
++    expect(result.buffer).to.deep.equal(Buffer.from([0, 128, 255, 1]))
++    expect(attempts).to.equal(2)
++  })
++
++  it('does not retry or disguise authentication failures as chart tiles', async () => {
++    let attempts = 0
++    handle = (_req, res) => {
++      attempts++
++      res.statusCode = 403
++      res.end('denied')
++    }
++    const result = await ChartDownloader.fetchTileFromRemoteDetailed(
++      provider(origin),
++      { z: 1, x: 0, y: 0 }
++    )
++    expect(result.buffer).to.equal(null)
++    expect(result.failure.status).to.equal(403)
++    expect(attempts).to.equal(1)
++  })
++})
++
++describe('browser chart redirect credentials', function () {
++  this.timeout(5000)
++  it('does not forward provider authorization to a different origin', async () => {
++    const target = createServer((req, res) =>
++      res.end(JSON.stringify(req.headers))
++    )
++    const source = createServer((_req, res) => {
++      const address = target.address()
++      if (!address || typeof address === 'string')
++        throw new Error('No target port')
++      res.writeHead(302, { location: `http://127.0.0.1:${address.port}/tile` })
++      res.end()
++    })
++    try {
++      await new Promise<void>((r) => target.listen(0, '127.0.0.1', r))
++      await new Promise<void>((r) => source.listen(0, '127.0.0.1', r))
++      const address = source.address()
++      if (!address || typeof address === 'string')
++        throw new Error('No source port')
++      const result = await ChartDownloader.fetchTileFromRemoteDetailed(
++        {
++          identifier: 'redirect-auth',
++          name: 'Redirect auth',
++          description: '',
++          type: 'tilelayer',
++          scale: 250000,
++          format: 'png',
++          _filePath: '',
++          remoteUrl: `http://127.0.0.1:${address.port}/`,
++          headers: { Authorization: 'Bearer private-token' }
++        },
++        { z: 1, x: 0, y: 0 }
++      )
++      const headers = JSON.parse(result.buffer!.toString())
++      expect(headers.authorization).to.equal(undefined)
++    } finally {
++      source.closeAllConnections()
++      target.closeAllConnections()
++      await Promise.all(
++        [source, target].map(
++          (server) => new Promise<void>((r) => server.close(() => r()))
++        )
++      )
++    }
++  })
++})
+diff --git a/test/tokenProvider-test.ts b/test/tokenProvider-test.ts
+index da302df..3ed56c3 100644
+--- a/test/tokenProvider-test.ts
++++ b/test/tokenProvider-test.ts
+@@ -9,6 +9,7 @@
+  */
+ 
+ import { expect } from 'chai'
++import { chartHttp } from '../src/chartHttp'
+ import {
+   TokenProvider,
+   chartProviderFromTokenConfig,
+@@ -42,13 +43,13 @@ const BASE_CONFIG: TokenProviderConfig = {
+   }
+ }
+ 
+-// Stub global fetch with a recording mock that returns programmable bodies.
++// Stub the chart transport with a recording mock that returns programmable bodies.
+ // Restored in afterEach so tests don't leak.
+ type FetchCall = { url: string; init: RequestInit | undefined }
+ const installFetchMock = (responder: (call: FetchCall) => Response) => {
+   const calls: FetchCall[] = []
+-  const original = globalThis.fetch
+-  globalThis.fetch = (async (
++  const original = chartHttp.fetch
++  chartHttp.fetch = (async (
+     input: string | URL | Request,
+     init?: RequestInit
+   ) => {
+@@ -60,11 +61,11 @@ const installFetchMock = (responder: (call: FetchCall) => Response) => {
+           : input.url
+     calls.push({ url, init })
+     return responder({ url, init })
+-  }) as typeof fetch
++  }) as typeof chartHttp.fetch
+   return {
+     calls,
+     restore: () => {
+-      globalThis.fetch = original
++      chartHttp.fetch = original
+     }
+   }
+ }
+@@ -469,3 +470,33 @@ describe('ChartDownloader.fetchTileFromRemote with a token provider', () => {
+     }
+   })
+ })
++
++describe('TokenProvider: native transport error redaction', () => {
++  it('does not log query credentials embedded in an impit transport error', async () => {
++    const mock = installFetchMock(() => {
++      throw new Error(
++        'error sending request for url (https://token.example.com/issue?api_key=test-private-value)'
++      )
++    })
++    const originalWarn = console.warn
++    const messages: string[] = []
++    console.warn = (...args: unknown[]) => {
++      messages.push(args.join(' '))
++    }
++    try {
++      const provider = new TokenProvider({
++        ...BASE_CONFIG,
++        tokenEndpoint: {
++          ...BASE_CONFIG.tokenEndpoint,
++          url: 'https://token.example.com/issue?api_key=test-private-value'
++        }
++      })
++      await provider.ensureFreshToken()
++      expect(messages.join(' ')).not.to.include('test-private-value')
++      expect(messages.join(' ')).to.include('https://token.example.com/issue')
++    } finally {
++      mock.restore()
++      console.warn = originalWarn
++    }
++  })
++})
