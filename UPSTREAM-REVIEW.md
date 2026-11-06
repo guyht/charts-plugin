@@ -27,3 +27,7 @@ not a claim of passing CI, deployment readiness or completed hardware validation
 
 Keep boat identity, credentials, live data, custom release suffixes and deployment
 scripts out of an upstream submission. Publish nothing to the parent until approved.
+
+## Preparation results — 6 November 2026
+
+Reference patch applies cleanly to the recorded upstream base, with custom release suffixes removed. It is a discussion artifact; no optional transport setting has been implemented or newly tested.
